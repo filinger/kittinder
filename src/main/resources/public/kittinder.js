@@ -34,7 +34,7 @@ function displayUser(userResponse) {
         userHTML += '<button type="button" onclick="likeUser(' + user.id + ')">Yay!</button>';
         userHTML += '<button type="button" onclick="dislikeUser(' + user.id +')">Nay...</button>';
     } else {
-        userHTML += '<p>No kittens for you, honey. Come back later.</p>';
+        userHTML += '<p>No more kittens for you, honey. Come back later.</p>';
     }
 
     document.getElementById("user").innerHTML = userHTML;
