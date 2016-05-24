@@ -11,7 +11,9 @@ function get(url, callback) {
 }
 
 function displayUser(user) {
-    var userHTML = '<p>' + user.name + '</p>';
+    var userHTML = "";
+    userHTML += '<img src="photo/' + user.photoId + '.jpg" style="width:500px;height:500px;">';
+    userHTML += '<p>' + user.name + '</p>';
     document.getElementById("user").innerHTML = userHTML;
 }
 
