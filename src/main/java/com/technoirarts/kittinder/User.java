@@ -23,7 +23,7 @@ public class User implements Serializable {
     private String occupation;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<Long> likes = new ArrayList<Long>();
+    private List<Long> likes = new ArrayList<>();
 
     public User() {
     }
