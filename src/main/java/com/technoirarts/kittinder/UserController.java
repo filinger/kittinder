@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Random;
 
 @RestController
@@ -19,49 +20,54 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/like")
-    public void likeUser(@RequestParam Long userId, @RequestParam Long originUserId) {
+    public GenericResponse likeUser(@RequestParam Long userId, @RequestParam Long originUserId) {
         User user = userRepository.findOne(userId);
         if (user != null) {
             user.getLikes().add(originUserId);
             userRepository.save(user);
         }
+        return new GenericResponse("ok");
     }
 
     @ResponseBody
     @RequestMapping("/dislike")
-    public void dislikeUser(@RequestParam Long userId, @RequestParam Long originUserId) {
+    public GenericResponse dislikeUser(@RequestParam Long userId, @RequestParam Long originUserId) {
         User user = userRepository.findOne(userId);
         if (user != null) {
             user.getDislikes().add(originUserId);
             userRepository.save(user);
         }
+        return new GenericResponse("ok");
     }
 
     @ResponseBody
     @RequestMapping("/candidate")
-    public User getCandidate(@RequestParam Long originUserId) {
-        User user = getRandomUser();
-        if (!user.getLikes().contains(originUserId) && !user.getDislikes().contains(originUserId)) {
-            return user;
+    public GenericResponse getCandidate(@RequestParam Long originUserId) {
+        List<User> users = userRepository.findNotLikedOrDislikedBy(originUserId);
+        if (users.isEmpty()) {
+            return new GenericResponse("fail");
         }
-        return getCandidate(originUserId);
+        User candidate = getRandomItem(users);
+        return new GenericResponse("ok", candidate);
     }
 
     @ResponseBody
     @RequestMapping("/find")
-    public User findUser(@RequestParam Long id) {
-        return userRepository.findOne(id);
+    public GenericResponse findUser(@RequestParam Long id) {
+        User user = userRepository.findOne(id);
+        if (user == null) {
+            return new GenericResponse("fail");
+        }
+        return new GenericResponse("ok", user);
     }
 
     @ResponseBody
     @RequestMapping("/count")
-    public Long getUserCount() {
-        return userRepository.count();
+    public GenericResponse getUserCount() {
+        return new GenericResponse("ok", userRepository.count());
     }
 
-    @ResponseBody
-    @RequestMapping("/random")
-    public User getRandomUser() {
-        return userRepository.findOne((long) RAND.nextInt((int) userRepository.count()));
+    private <T> T getRandomItem(List<T> items) {
+        return items.get(RAND.nextInt(items.size()));
     }
 }
