@@ -2,8 +2,8 @@ package com.technoirarts.kittinder;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User implements Serializable {
@@ -23,7 +23,10 @@ public class User implements Serializable {
     private String occupation;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<Long> likes = new ArrayList<>();
+    private Set<Long> likes = new HashSet<>();
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Long> dislikes = new HashSet<>();
 
     public User() {
     }
@@ -67,11 +70,19 @@ public class User implements Serializable {
         this.occupation = occupation;
     }
 
-    public List<Long> getLikes() {
+    public Set<Long> getLikes() {
         return likes;
     }
 
-    public void setLikes(List<Long> likes) {
+    public void setLikes(Set<Long> likes) {
         this.likes = likes;
+    }
+
+    public Set<Long> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Set<Long> dislikes) {
+        this.dislikes = dislikes;
     }
 }

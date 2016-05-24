@@ -19,12 +19,32 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/like")
-    public void likeUser(@RequestParam Long userIdToLike, @RequestParam Long likedUserId) {
-        User user = userRepository.findOne(userIdToLike);
+    public void likeUser(@RequestParam Long userId, @RequestParam Long originUserId) {
+        User user = userRepository.findOne(userId);
         if (user != null) {
-            user.getLikes().add(likedUserId);
+            user.getLikes().add(originUserId);
             userRepository.save(user);
         }
+    }
+
+    @ResponseBody
+    @RequestMapping("/dislike")
+    public void dislikeUser(@RequestParam Long userId, @RequestParam Long originUserId) {
+        User user = userRepository.findOne(userId);
+        if (user != null) {
+            user.getDislikes().add(originUserId);
+            userRepository.save(user);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/candidate")
+    public User getCandidate(@RequestParam Long originUserId) {
+        User user = getRandomUser();
+        if (!user.getLikes().contains(originUserId) && !user.getDislikes().contains(originUserId)) {
+            return user;
+        }
+        return getCandidate(originUserId);
     }
 
     @ResponseBody
