@@ -1,0 +1,16 @@
+kittinder.generator:
+        userAmount: 10
+        photoAmount: 10
+
+spring:
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        properties:
+            hibernate.cache.use_second_level_cache: false
+            hibernate.cache.use_query_cache: false
+    datasource:
+        url: jdbc:h2:./kittinder
+        driverClassName: org.h2.Driver
+        username: sa
+        password:
+    h2.console.enabled: true
