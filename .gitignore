@@ -61,6 +61,7 @@ crashlytics-build.properties
 fabric.properties
 
 .idea
+*.iml
 
 ### Maven template
 target/
