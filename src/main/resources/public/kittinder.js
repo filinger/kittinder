@@ -1,3 +1,5 @@
+var myUserId = 0;
+
 function getUrl(url, callback) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -13,15 +15,15 @@ function getUrl(url, callback) {
 }
 
 function likeUser(id) {
-    getUrl("user/like?userId=" + id + "&originUserId=1", displayNewCandidate);
+    getUrl("user/like?userId=" + id + "&originUserId=" + myUserId, displayNewCandidate);
 }
 
 function dislikeUser(id) {
-    getUrl("user/dislike?userId=" + id + "&originUserId=1", displayNewCandidate);
+    getUrl("user/dislike?userId=" + id + "&originUserId=" + myUserId, displayNewCandidate);
 }
 
 function displayNewCandidate() {
-    getUrl("user/candidate?originUserId=1", displayUser);
+    getUrl("user/candidate?originUserId=" + myUserId, displayUser);
 }
 
 function displayUser(userResponse) {
