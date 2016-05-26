@@ -31,10 +31,12 @@ function displayUser(userResponse) {
 
     if (userResponse.data != null) {
         var user = userResponse.data;
-        userHTML += '<img src="photo/' + user.photoId + '.jpg" style="width:500px;height:500px;">';
+        userHTML += '<div class="imageDiv"><img class="profileImage" src="photo/' + user.photoId + '.jpg"></div>';
+        userHTML += '<div class="descDiv">';
         userHTML += '<p>' + user.name + '</p>';
-        userHTML += '<button type="button" onclick="likeUser(' + user.id + ')">Yay!</button>';
-        userHTML += '<button type="button" onclick="dislikeUser(' + user.id +')">Nay...</button>';
+        userHTML += '<button onclick="likeUser(' + user.id + ')">Yay <i class="fa fa-thumbs-o-up"></i></button>';
+        userHTML += '<button onclick="dislikeUser(' + user.id +')">Nay <i class="fa fa-thumbs-o-down"></i></button>';
+        userHTML += '</div>'
     } else {
         userHTML += '<p>No more kittens for you, honey. Come back later.</p>';
     }
